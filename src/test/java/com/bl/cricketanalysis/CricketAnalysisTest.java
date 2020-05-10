@@ -30,7 +30,6 @@ public class CricketAnalysisTest {
             cricketAnalysis.loadDataForRuns(PATH_OF_CSV_FILE);
             String sortedCensusData = cricketAnalysis.getAverageWiseSorted();
             IPLMostRuns[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostRuns[].class);
-            double runs = censusCsv[0].Avg;
             String name = censusCsv[0].getPLAYER();
             Assert.assertEquals("MS Dhoni", name);
         } catch (Exception e) {
@@ -43,7 +42,6 @@ public class CricketAnalysisTest {
             cricketAnalysis.loadDataForRuns(PATH_OF_CSV_FILE);
             String sortedCensusData = cricketAnalysis.getStrikerateWiseSorted();
             IPLMostRuns[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostRuns[].class);
-            double runs = censusCsv[0].SR;
             String name = censusCsv[0].getPLAYER();
             Assert.assertEquals("Ishant Sharma", name);
         } catch (Exception e) {
@@ -56,7 +54,6 @@ public class CricketAnalysisTest {
             cricketAnalysis.loadDataForRuns(PATH_OF_CSV_FILE);
             String sortedCensusData = cricketAnalysis.getFoursWiseSorted();
             IPLMostRuns[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostRuns[].class);
-            double runs = censusCsv[0].fours;
             String name = censusCsv[0].getPLAYER();
             Assert.assertEquals("Shikhar Dhawan", name);
         } catch (Exception e) {
@@ -69,7 +66,6 @@ public class CricketAnalysisTest {
             cricketAnalysis.loadDataForRuns(PATH_OF_CSV_FILE);
             String sortedCensusData = cricketAnalysis.getSixesWiseSorted();
             IPLMostRuns[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostRuns[].class);
-            double runs = censusCsv[0].sixs;
             String name = censusCsv[0].getPLAYER();
             Assert.assertEquals("Andre Russell", name);
         } catch (Exception e) {
@@ -82,7 +78,6 @@ public class CricketAnalysisTest {
             cricketAnalysis.loadDataForRuns(PATH_OF_CSV_FILE);
             String sortedCensusData = cricketAnalysis.get4sn6sWiseSorted();
             IPLMostRuns[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostRuns[].class);
-            double runs = censusCsv[0].SR;
             String name = censusCsv[0].getPLAYER();
             Assert.assertEquals("Ishant Sharma", name);
         } catch (Exception e) {
@@ -107,7 +102,6 @@ public class CricketAnalysisTest {
             cricketAnalysis.loadDataForRuns(PATH_OF_CSV_FILE);
             String sortedCensusData = cricketAnalysis.getBestAverageWithRunsWiseSorted();
             IPLMostRuns[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostRuns[].class);
-            double runs = censusCsv[0].Runs;
             String name = censusCsv[0].getPLAYER();
             Assert.assertEquals("David Warner", name);
         } catch (Exception e) {
@@ -127,7 +121,6 @@ public class CricketAnalysisTest {
             cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKETS_CSV_FILE);
             String sortedCensusData = cricketAnalysis.getAverageBowlingWiseSorted();
             IPLMostWickets[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostWickets[].class);
-            double runs = censusCsv[0].Avg;
             String name = censusCsv[0].getPLAYER();
             Assert.assertEquals("Krishnappa Gowtham", name);
         } catch (Exception e) {
@@ -139,9 +132,19 @@ public class CricketAnalysisTest {
             cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKETS_CSV_FILE);
             String sortedCensusData = cricketAnalysis.getBestStrikingRateWiseSorted();
             IPLMostWickets[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostWickets[].class);
-            double runs = censusCsv[0].Avg;
             String name = censusCsv[0].getPLAYER();
             Assert.assertEquals("Krishnappa Gowtham", name);
+        } catch (Exception e) {
+        }
+    }
+    @Test
+    public void givenCricketData_WhenSorted_ShouldReturnSortedWithBestEconomy() {
+        try {
+            cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKETS_CSV_FILE);
+            String sortedCensusData = cricketAnalysis.getBestEconomyWiseSorted();
+            IPLMostWickets[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostWickets[].class);
+            String name = censusCsv[0].getPLAYER();
+            Assert.assertEquals("Ben Cutting", name);
         } catch (Exception e) {
         }
     }
