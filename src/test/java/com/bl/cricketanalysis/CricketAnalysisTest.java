@@ -13,7 +13,7 @@ import java.io.IOException;
 public class CricketAnalysisTest {
     CricketAnalysis cricketAnalysis;
     public static final String PATH_OF_CSV_FILE = "./src/test/resources/MostRunsData.csv";
-    public static final String PATH_OF_MOST_WICKET_CSV_FILE="./src/test/resources/MostWicketData.csv";
+    public static final String PATH_OF_MOST_WICKET_CSV_FILE = "./src/test/resources/MostWicketData.csv";
 
     @Test
     public void givenTheCSVFile_WhenNoOfRecordMatch_ShouldReturnTrue() {
@@ -165,6 +165,7 @@ public class CricketAnalysisTest {
         } catch (Exception e) {
         }
     }
+
     @Test
     public void givenCricketData_WhenSorted_ShouldReturnSortedWithStrikeRate5w() {
         try {
@@ -177,16 +178,29 @@ public class CricketAnalysisTest {
         } catch (Exception e) {
         }
     }
+
     @Test
     public void givenCricketData_WhenSorted_ShouldReturnSortedWithTopStrikingRateAndAvg() {
-        try{
-        cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKET_CSV_FILE);
-        String sortedCensusData = cricketAnalysis.getAverageBowlingWiseSorted();
-        IPLMostWickets[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostWickets[].class);
-        double runs=censusCsv[0].Avg;
-        String name=censusCsv[0].getPLAYER();
-        Assert.assertEquals("Krishnappa Gowtham",name);
-    }catch(Exception e) {
+        try {
+            cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKET_CSV_FILE);
+            String sortedCensusData = cricketAnalysis.getAverageBowlingWiseSorted();
+            IPLMostWickets[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostWickets[].class);
+            double runs = censusCsv[0].Avg;
+            String name = censusCsv[0].getPLAYER();
+            Assert.assertEquals("Krishnappa Gowtham", name);
+        } catch (Exception e) {
         }
+    }
+    @Test
+    public void givenCricketData_WhenSorted_ShouldReturnSortedWithTopWickets() {
+        try {
+            cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKET_CSV_FILE);
+            String sortedCensusData = cricketAnalysis.getWicketsWithBestWicketsWiseSorted();
+            IPLMostWickets[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostWickets[].class);
+            double runs = censusCsv[0].Avg;
+            String name = censusCsv[0].getPLAYER();
+            Assert.assertEquals("Imarn Tahir", name);
+        } catch (Exception e) {
         }
+    }
 }
