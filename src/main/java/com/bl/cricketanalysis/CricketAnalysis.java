@@ -4,6 +4,7 @@ import com.bl.cricketanalysis.builder.CSVBuilderFactory;
 import com.bl.cricketanalysis.builder.ICSVBuilder;
 import com.bl.cricketanalysis.exception.CSVBuilderException;
 import com.bl.cricketanalysis.model.IPLMostRuns;
+import com.bl.cricketanalysis.model.IPLMostWickets;
 import com.google.gson.Gson;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
@@ -22,7 +23,21 @@ import java.util.stream.StreamSupport;
 
 public class CricketAnalysis {
     List<IPLMostRuns> censusCSVList= null;
-    public int loadData(String filePath) throws IOException {
+    List<IPLMostWickets> iplMostWicketsList = null;
+
+    public int loadDataForRuns(String filePath) throws IOException {
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
+            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            censusCSVList = csvBuilder.getCSVFileList(reader, IPLMostRuns.class);
+            System.out.println(censusCSVList);
+            return censusCSVList.size();
+        } catch (IOException e) {
+            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.FILE_NOT_FOUND);
+        } catch (RuntimeException e) {
+            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.INCORRECT_FILE);
+        }
+    }
+    public int loadDataForWickets(String filePath) throws IOException {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             censusCSVList = csvBuilder.getCSVFileList(reader, IPLMostRuns.class);
@@ -98,6 +113,18 @@ public class CricketAnalysis {
                 if (iplMostRunsComparator.compare(census1, census2) < 0) {
                     censusCSVList.set(j, census2);
                     censusCSVList.set(j + 1, census1);
+                }
+            }
+        }
+    }
+    private void sortForWickets(Comparator<IPLMostWickets> iplMostWicketsComparator) {
+        for (int i = 0; i < censusCSVList.size()-1; i++){
+            for (int j=0; j < censusCSVList.size()-i-1; j++){
+                IPLMostWickets census1 = iplMostWicketsList.get(j);
+                IPLMostWickets census2 = iplMostWicketsList.get(j+1);
+                if (iplMostWicketsComparator.compare(census1,census2)<0){
+                    iplMostWicketsList.set(j,census2);
+                    iplMostWicketsList.set(j+1,census1);
                 }
             }
         }
