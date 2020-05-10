@@ -21,8 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class CricketAnalysis {
-     List<IPLMostRuns> censusCSVList= null;
-
+    List<IPLMostRuns> censusCSVList= null;
     public int loadData(String filePath) throws IOException {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
@@ -77,8 +76,16 @@ public class CricketAnalysis {
     }
     public String getAverageWithBestSRWiseSorted(){
         if(censusCSVList.size()==0 || censusCSVList==null)
-           throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
+            throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
         Comparator<IPLMostRuns> iplMostRunsComparator = Comparator.comparing(census -> census.Avg);
+        this.sort(iplMostRunsComparator);
+        String sortedCensusJson = new Gson().toJson(censusCSVList);
+        return sortedCensusJson;
+    }
+    public String getBestAverangeWithRunsWiseSorted(){
+        if(censusCSVList.size()==0 || censusCSVList==null)
+            throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
+        Comparator<IPLMostRuns> iplMostRunsComparator = Comparator.comparing(census -> census.Runs);
         this.sort(iplMostRunsComparator);
         String sortedCensusJson = new Gson().toJson(censusCSVList);
         return sortedCensusJson;
