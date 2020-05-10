@@ -23,7 +23,7 @@ import java.util.stream.StreamSupport;
 
 public class CricketAnalysis {
     List<IPLMostRuns> censusCSVList= null;
-    List<IPLMostWickets> iplMostWicketsList = null;
+    List<IPLMostWickets> WicketsList = null;
 
     public int loadDataForRuns(String filePath) throws IOException {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
@@ -105,6 +105,15 @@ public class CricketAnalysis {
         String sortedCensusJson = new Gson().toJson(censusCSVList);
         return sortedCensusJson;
     }
+    public String getAverageBowlingWiseSorted()
+    {
+        if(WicketsList.size()==0 || WicketsList==null)
+            throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
+        Comparator<IPLMostWickets> iplMostWicketsComparator = Comparator.comparing(census -> census.Avg);
+        this.sortForWickets(iplMostWicketsComparator);
+        String sortedCensusJson = new Gson().toJson(WicketsList);
+        return sortedCensusJson;
+    }
     private void sort(Comparator<IPLMostRuns> iplMostRunsComparator) {
         for (int i = 0; i < censusCSVList.size() - 1; i++) {
             for (int j = 0; j < censusCSVList.size() - i - 1; j++) {
@@ -118,13 +127,13 @@ public class CricketAnalysis {
         }
     }
     private void sortForWickets(Comparator<IPLMostWickets> iplMostWicketsComparator) {
-        for (int i = 0; i < censusCSVList.size()-1; i++){
-            for (int j=0; j < censusCSVList.size()-i-1; j++){
-                IPLMostWickets census1 = iplMostWicketsList.get(j);
-                IPLMostWickets census2 = iplMostWicketsList.get(j+1);
+        for (int i = 0; i < WicketsList.size()-1; i++){
+            for (int j=0; j < WicketsList.size()-i-1; j++){
+                IPLMostWickets census1 = WicketsList.get(j);
+                IPLMostWickets census2 = WicketsList.get(j+1);
                 if (iplMostWicketsComparator.compare(census1,census2)<0){
-                    iplMostWicketsList.set(j,census2);
-                    iplMostWicketsList.set(j+1,census1);
+                    WicketsList.set(j,census2);
+                    WicketsList.set(j+1,census1);
                 }
             }
         }
