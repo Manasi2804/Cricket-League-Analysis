@@ -137,7 +137,7 @@ public class CricketAnalysisTest {
     public void givenCricketData_WhenSorted_ShouldReturnSortedWithStrikeRate() {
         try {
             cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKETS_CSV_FILE);
-            String sortedCensusData = cricketAnalysis.getAverageBowlingWiseSorted();
+            String sortedCensusData = cricketAnalysis.getBestStrikingRateWiseSorted();
             IPLMostWickets[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostWickets[].class);
             double runs = censusCsv[0].Avg;
             String name = censusCsv[0].getPLAYER();
