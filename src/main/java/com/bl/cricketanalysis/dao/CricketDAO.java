@@ -8,7 +8,7 @@ public class CricketDAO {
     public String Mat;
     public String Inns;
     public String NO;
-    public String Runs;
+    public double Runs;
     public String HS;
     public double Avg;
     public String BF;

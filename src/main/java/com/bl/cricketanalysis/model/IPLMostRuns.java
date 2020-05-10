@@ -19,7 +19,7 @@ public class IPLMostRuns {
     public String NO;
 
     @CsvBindByName(column = "Runs")
-    public String Runs;
+    public double Runs;
 
     @CsvBindByName(column = "HS")
     public String HS;
@@ -85,11 +85,11 @@ public class IPLMostRuns {
         this.NO = NO;
     }
 
-    public String getRuns() {
+    public double getRuns() {
         return Runs;
     }
 
-    public void setRuns(String runs) {
+    public void setRuns(double runs) {
         Runs = runs;
     }
 
