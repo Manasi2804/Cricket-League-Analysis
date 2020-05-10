@@ -15,8 +15,8 @@ public class CricketDAO {
     public double SR;
     public String hundred;
     public String fifty;
-    public  String fours;
-    public String sixs;
+    public double fours;
+    public double sixs;
 
     public CricketDAO(IPLMostRuns iplMostRuns)
     {
