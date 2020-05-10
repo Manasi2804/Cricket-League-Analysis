@@ -147,11 +147,18 @@ public class CricketAnalysis {
         String sortedCensusJson = new Gson().toJson(WicketsList);
         return sortedCensusJson;
     }
-    public String getWicketsWithBestWicketsWiseSorted()
-    {
+    public String getWicketsWithBestWicketsWiseSorted(){
         if(WicketsList.size()==0 || WicketsList==null)
             throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
         Comparator<IPLMostWickets> iplMostWicketsComparator = Comparator.comparing(census -> census.Wkts);
+        this.sortForWickets(iplMostWicketsComparator);
+        String sortedCensusJson = new Gson().toJson(WicketsList);
+        return sortedCensusJson;
+    }
+    public String getWicketsWithBestRunsWiseSorted(){
+        if(WicketsList.size()==0 || WicketsList==null)
+            throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
+        Comparator<IPLMostWickets> iplMostWicketsComparator = Comparator.comparing(census -> census.Runs);
         this.sortForWickets(iplMostWicketsComparator);
         String sortedCensusJson = new Gson().toJson(WicketsList);
         return sortedCensusJson;

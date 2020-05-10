@@ -224,4 +224,15 @@ public class CricketAnalysisTest {
         } catch (Exception e) {
         }
     }
+    @Test
+    public void givenCricketData_WhenSorted_ShouldReturnTopRuns() {
+        try {
+            cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKET_CSV_FILE);
+            String sortedData = cricketAnalysis.getWicketsWithBestRunsWiseSorted();
+            IPLMostRuns[] censusCsv = new Gson().fromJson(sortedData, IPLMostRuns[].class);
+            String names = censusCsv[0].getPLAYER();
+            Assert.assertEquals("Deepak chahar", names);
+        } catch (Exception e) {
+        }
+    }
 }
