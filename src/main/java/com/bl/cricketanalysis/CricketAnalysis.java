@@ -40,7 +40,7 @@ public class CricketAnalysis {
     public int loadDataForWickets(String filePath) throws IOException {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            censusCSVList = csvBuilder.getCSVFileList(reader, IPLMostRuns.class);
+            censusCSVList = csvBuilder.getCSVFileList(reader, IPLMostWickets.class);
             System.out.println(censusCSVList);
             return censusCSVList.size();
         } catch (IOException e) {

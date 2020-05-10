@@ -26,9 +26,9 @@ public class IPLMostWickets {
     @CsvBindByName(column = "SR")
     public String SR;
     @CsvBindByName(column = "4w")
-    public String FourWickets;
+    public double FourWickets;
     @CsvBindByName(column = "5w")
-    public String FiveWickets;
+    public double FiveWickets;
     public String getPLAYER() {
         return PLAYER;
     }

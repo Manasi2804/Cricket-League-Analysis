@@ -12,8 +12,8 @@ import java.io.IOException;
 
 public class CricketAnalysisTest {
     CricketAnalysis cricketAnalysis;
-    public static String PATH_OF_CSV_FILE = "./src/test/resources/MostRunsData.csv";
-    public static final String PATH_OF_MOST_WICKETS_CSV_FILE = "./src/test/resources/MostWicketsData.csv";
+    public static final String PATH_OF_CSV_FILE = "./src/test/resources/MostRunsData.csv";
+    public static final String PATH_OF_MOST_WICKET_CSV_FILE="./src/test/resources/MostWicketData.csv";
 
     @Test
     public void givenTheCSVFile_WhenNoOfRecordMatch_ShouldReturnTrue() {
@@ -107,18 +107,20 @@ public class CricketAnalysisTest {
         } catch (Exception e) {
         }
     }
+
     @Test
     public void givenFilePathGForWickets_WhenNoOfRecordMatches_ThenReturnTrue() {
         try {
-            int noOfRecords = cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKETS_CSV_FILE);
+            int noOfRecords = cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKET_CSV_FILE);
             Assert.assertEquals(99, noOfRecords);
         } catch (Exception e) {
         }
     }
+
     @Test
     public void givenCricketData_WhenSorted_ShouldReturnSortedWithTopBowlingAvg() {
         try {
-            cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKETS_CSV_FILE);
+            cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKET_CSV_FILE);
             String sortedCensusData = cricketAnalysis.getAverageBowlingWiseSorted();
             IPLMostWickets[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostWickets[].class);
             String name = censusCsv[0].getPLAYER();
@@ -126,10 +128,11 @@ public class CricketAnalysisTest {
         } catch (Exception e) {
         }
     }
+
     @Test
     public void givenCricketData_WhenSorted_ShouldReturnSortedWithStrikeRate() {
         try {
-            cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKETS_CSV_FILE);
+            cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKET_CSV_FILE);
             String sortedCensusData = cricketAnalysis.getBestStrikingRateWiseSorted();
             IPLMostWickets[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostWickets[].class);
             String name = censusCsv[0].getPLAYER();
@@ -137,14 +140,40 @@ public class CricketAnalysisTest {
         } catch (Exception e) {
         }
     }
+
     @Test
     public void givenCricketData_WhenSorted_ShouldReturnSortedWithBestEconomy() {
         try {
-            cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKETS_CSV_FILE);
+            cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKET_CSV_FILE);
             String sortedCensusData = cricketAnalysis.getBestEconomyWiseSorted();
             IPLMostWickets[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostWickets[].class);
             String name = censusCsv[0].getPLAYER();
             Assert.assertEquals("Ben Cutting", name);
+        } catch (Exception e) {
+        }
+    }
+
+    @Test
+    public void givenCricketData_WhenSorted_ShouldReturnSortedWithStrikeRate4w() {
+        try {
+            cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKET_CSV_FILE);
+            String sortedCensusData = cricketAnalysis.getWicketsWithBestStrikingRate4wWiseSorted();
+            IPLMostWickets[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostWickets[].class);
+            double runs = censusCsv[0].FourWickets;
+            String name = censusCsv[0].getPLAYER();
+            Assert.assertEquals("Imran Tahir", name);
+        } catch (Exception e) {
+        }
+    }
+    @Test
+    public void givenCricketData_WhenSorted_ShouldReturnSortedWithStrikeRate5w() {
+        try {
+            cricketAnalysis.loadDataForWickets(PATH_OF_MOST_WICKET_CSV_FILE);
+            String sortedCensusData = cricketAnalysis.getWicketsWithBestStrikingRate5wWiseSorted();
+            IPLMostWickets[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostWickets[].class);
+            double runs = censusCsv[0].FiveWickets;
+            String name = censusCsv[0].getPLAYER();
+            Assert.assertEquals("Alzarri Joseph", name);
         } catch (Exception e) {
         }
     }
