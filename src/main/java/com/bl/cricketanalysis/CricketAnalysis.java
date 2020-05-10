@@ -35,15 +35,23 @@ public class CricketAnalysis {
             throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.INCORRECT_FILE);
         }
     }
-    private <E> int getCount(Iterator<E> iterator) {
-        Iterable<E> csvIterable = () -> iterator;
-        int numberOfEnteries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
-        return numberOfEnteries;
-    }
+    //private <E> int getCount(Iterator<E> iterator) {
+     //   Iterable<E> csvIterable = () -> iterator;
+     //   int numberOfEnteries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
+      //  return numberOfEnteries;
+ //   }
     public String getAverageWiseSorted() {
         if (censusCSVList.size() == 0 || censusCSVList == null)
             throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
         Comparator<IPLMostRuns> iplMostRunsComparator = Comparator.comparing(census -> census.Avg);
+        this.sort(iplMostRunsComparator);
+        String sortedCensusJson = new Gson().toJson(censusCSVList);
+        return sortedCensusJson;
+    }
+    public String getStrikerateWiseSorted()  {
+        if(censusCSVList.size()==0 || censusCSVList==null)
+            throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
+        Comparator<IPLMostRuns> iplMostRunsComparator = Comparator.comparing(census -> census.SR);
         this.sort(iplMostRunsComparator);
         String sortedCensusJson = new Gson().toJson(censusCSVList);
         return sortedCensusJson;
