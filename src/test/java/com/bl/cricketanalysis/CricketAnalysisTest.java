@@ -21,7 +21,6 @@ public class CricketAnalysisTest {
         } catch (Exception e) {
         }
     }
-
     @Test
     public void givenCricketData_WhenSorted_ShouldReturnBestBattingAverage() {
         try {
@@ -43,6 +42,30 @@ public class CricketAnalysisTest {
             double runs = censusCsv[0].SR;
             String name = censusCsv[0].getPLAYER();
             Assert.assertEquals("Ishant Sharma", name);
+        } catch (Exception e) {
+        }
+    }
+    @Test
+    public void givenCricketData_WhenSorted_ShouldReturnSortedFours() {
+        try {
+            cricketAnalysis.loadData(PATH_OF_CSV_FILE);
+            String sortedCensusData = cricketAnalysis.getFoursWiseSorted();
+            IPLMostRuns[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostRuns[].class);
+            double runs = censusCsv[0].fours;
+            String name = censusCsv[0].getPLAYER();
+            Assert.assertEquals("Shikhar Dhawan", name);
+        } catch (Exception e) {
+        }
+    }
+    @Test
+    public void givenCricketData_WhenSorted_ShouldReturnSortedSixes() {
+        try {
+            cricketAnalysis.loadData(PATH_OF_CSV_FILE);
+            String sortedCensusData = cricketAnalysis.getSixesWiseSorted();
+            IPLMostRuns[] censusCsv = new Gson().fromJson(sortedCensusData, IPLMostRuns[].class);
+            double runs = censusCsv[0].sixs;
+            String name = censusCsv[0].getPLAYER();
+            Assert.assertEquals("Andre Russell", name);
         } catch (Exception e) {
         }
     }
