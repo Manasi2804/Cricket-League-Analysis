@@ -25,30 +25,32 @@ public class CricketAnalysis {
     List<IPLMostRuns> censusCSVList= null;
     List<IPLMostWickets> WicketsList = null;
 
-    public int loadDataForRuns(String filePath) throws IOException {
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
+    public int loadDataForRuns(String filePath)throws IOException,CSVBuilderException {
+        try{
+            BufferedReader reader = Files.newBufferedReader(Paths.get(filePath));
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             censusCSVList = csvBuilder.getCSVFileList(reader, IPLMostRuns.class);
             System.out.println(censusCSVList);
             return censusCSVList.size();
-        } catch (IOException e) {
-            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.FILE_NOT_FOUND);
-        } catch (RuntimeException e) {
-            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.INCORRECT_FILE);
+            } catch(IOException e){
+                throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.FILE_NOT_FOUND);
+            } catch(RuntimeException e){
+                throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.INCORRECT_FILE);
+            }
         }
-    }
-    public int loadDataForWickets(String filePath) throws IOException {
+    public int loadDataForWickets(String filePath) {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            censusCSVList = csvBuilder.getCSVFileList(reader, IPLMostWickets.class);
-            System.out.println(censusCSVList);
-            return censusCSVList.size();
+            WicketsList = csvBuilder.getCSVFileList(reader, IPLMostWickets.class);
+            System.out.println(WicketsList);
+            return WicketsList.size();
         } catch (IOException e) {
             throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.FILE_NOT_FOUND);
         } catch (RuntimeException e) {
             throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.INCORRECT_FILE);
         }
     }
+
     public String getAverageWiseSorted() {
         if (censusCSVList.size() == 0 || censusCSVList == null)
             throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
@@ -81,6 +83,14 @@ public class CricketAnalysis {
         String sortedCensusJson = new Gson().toJson(censusCSVList);
         return sortedCensusJson;
     }
+    public String getmaximum6sn4sWiseSorted()  {
+        if(censusCSVList.size()==0 || censusCSVList==null)
+            throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
+        Comparator<IPLMostRuns> iplMostRunsComparator = Comparator.comparing(census -> census.sixs+census.fours);
+        this.sort(iplMostRunsComparator);
+        String sortedCensusJson = new Gson().toJson(censusCSVList);
+        return sortedCensusJson;
+    }
     public String get4sn6sWiseSorted()  {
         if(censusCSVList.size()==0 || censusCSVList==null)
             throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
@@ -92,7 +102,7 @@ public class CricketAnalysis {
     public String getAverageWithBestSRWiseSorted(){
         if(censusCSVList.size()==0 || censusCSVList==null)
             throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
-        Comparator<IPLMostRuns> iplMostRunsComparator = Comparator.comparing(census -> census.Avg);
+        Comparator<IPLMostRuns> iplMostRunsComparator = Comparator.comparing(census -> (census.Avg+census.SR)>100);
         this.sort(iplMostRunsComparator);
         String sortedCensusJson = new Gson().toJson(censusCSVList);
         return sortedCensusJson;
@@ -100,25 +110,15 @@ public class CricketAnalysis {
     public String getBestAverageWithRunsWiseSorted(){
         if(censusCSVList.size()==0 || censusCSVList==null)
             throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
-        Comparator<IPLMostRuns> iplMostRunsComparator = Comparator.comparing(census -> census.Runs);
+        Comparator<IPLMostRuns> iplMostRunsComparator = Comparator.comparing(census -> (census.Runs+ census.Avg)/2);
         this.sort(iplMostRunsComparator);
         String sortedCensusJson = new Gson().toJson(censusCSVList);
         return sortedCensusJson;
     }
-    public String getAverageBowlingWiseSorted()
-    {
+    public String getBestStrikingRateWiseSorted(){
         if(WicketsList.size()==0 || WicketsList==null)
             throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
-        Comparator<IPLMostWickets> iplMostWicketsComparator = Comparator.comparing(census -> census.Avg);
-        this.sortForWickets(iplMostWicketsComparator);
-        String sortedCensusJson = new Gson().toJson(WicketsList);
-        return sortedCensusJson;
-    }
-    public String getBestStrikingRateWiseSorted()
-    {
-        if(WicketsList.size()==0 || WicketsList==null)
-            throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
-        Comparator<IPLMostWickets> iplMostWicketsComparator = Comparator.comparing(census -> census.SR);
+        Comparator<IPLMostWickets> iplMostWicketsComparator = Comparator.comparing(census -> ((census.Ov)*6)/census.Wkts);
         this.sortForWickets(iplMostWicketsComparator);
         String sortedCensusJson = new Gson().toJson(WicketsList);
         return sortedCensusJson;
@@ -142,7 +142,7 @@ public class CricketAnalysis {
     public String getWicketsWithBestStrikingRate5wWiseSorted(){
         if(WicketsList.size()==0 || WicketsList==null)
             throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
-        Comparator<IPLMostWickets> iplMostWicketsComparator = Comparator.comparing(census -> census.FiveWickets);
+        Comparator<IPLMostWickets> iplMostWicketsComparator = Comparator.comparing(census ->census.FiveWickets);
         this.sortForWickets(iplMostWicketsComparator);
         String sortedCensusJson = new Gson().toJson(WicketsList);
         return sortedCensusJson;
@@ -150,15 +150,23 @@ public class CricketAnalysis {
     public String getWicketsWithBestWicketsWiseSorted(){
         if(WicketsList.size()==0 || WicketsList==null)
             throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
-        Comparator<IPLMostWickets> iplMostWicketsComparator = Comparator.comparing(census -> census.Wkts);
+        Comparator<IPLMostWickets> iplMostWicketsComparator = Comparator.comparing(census -> ((census.Runs/census.Wkts)+census.SR)/2);
         this.sortForWickets(iplMostWicketsComparator);
         String sortedCensusJson = new Gson().toJson(WicketsList);
         return sortedCensusJson;
     }
-    public String getWicketsWithBestRunsWiseSorted(){
+    public String getWicketsWithBestBowlingAverageWiseSorted() {
+        if (WicketsList.size() == 0 || WicketsList == null)
+            throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
+        Comparator<IPLMostWickets> iplMostWicketsComparator = Comparator.comparing(census -> (census.Runs / census.Wkts));
+        this.sortForWickets(iplMostWicketsComparator);
+        String sortedCensusJson = new Gson().toJson(WicketsList);
+        return sortedCensusJson;
+    }
+    public String getWicketsWithBestAllRounderWiseSorted(){
         if(WicketsList.size()==0 || WicketsList==null)
             throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
-        Comparator<IPLMostWickets> iplMostWicketsComparator = Comparator.comparing(census -> census.Runs);
+        Comparator<IPLMostWickets> iplMostWicketsComparator = Comparator.comparing(census -> census.Runs+census.Wkts);
         this.sortForWickets(iplMostWicketsComparator);
         String sortedCensusJson = new Gson().toJson(WicketsList);
         return sortedCensusJson;

@@ -20,19 +20,19 @@ public class CricketDAO {
 
     public CricketDAO(IPLMostRuns iplMostRuns)
     {
-        this.POS=iplMostRuns.POS;
-        this.PLAYER=iplMostRuns.PLAYER;
-        this.Mat=iplMostRuns.Mat;
-        this.Inns=iplMostRuns.Inns;
-        this.NO=iplMostRuns.NO;
-        this.Runs=iplMostRuns.Runs;
-        this.HS=iplMostRuns.HS;
-        this.Avg=iplMostRuns.Avg;
-        this.BF=iplMostRuns.BF;
-        this.hundred=iplMostRuns.hundred;
-        this.fifty=iplMostRuns.fifty;
-        this.fours=iplMostRuns.fours;
-        this.sixs=iplMostRuns.sixs;
-        this.SR=iplMostRuns.SR;
+        POS=iplMostRuns.POS;
+        PLAYER=iplMostRuns.PLAYER;
+        Mat=iplMostRuns.Mat;
+        Inns=iplMostRuns.Inns;
+        NO=iplMostRuns.NO;
+        Runs=iplMostRuns.Runs;
+        HS=iplMostRuns.HS;
+        Avg=iplMostRuns.Avg;
+        BF=iplMostRuns.BF;
+        hundred=iplMostRuns.hundred;
+        fifty=iplMostRuns.fifty;
+        fours=iplMostRuns.fours;
+        sixs=iplMostRuns.sixs;
+        SR=iplMostRuns.SR;
     }
 }

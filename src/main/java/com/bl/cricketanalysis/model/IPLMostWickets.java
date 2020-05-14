@@ -12,28 +12,30 @@ public class IPLMostWickets {
     @CsvBindByName(column = "Inns")
     public String Inns;
     @CsvBindByName(column = "Ov")
-    public String Ov;
+    public double Ov;
     @CsvBindByName(column = "Runs")
-    public String Runs;
+    public double Runs;
     @CsvBindByName(column = "Wkts")
-    public String Wkts;
+    public double Wkts;
     @CsvBindByName(column = "BBI")
     public String BBI;
     @CsvBindByName(column = "Avg")
     public double Avg;
     @CsvBindByName(column = "Econ")
-    public String Econ;
+    public double Econ;
     @CsvBindByName(column = "SR")
-    public String SR;
+    public double SR;
     @CsvBindByName(column = "4w")
     public double FourWickets;
     @CsvBindByName(column = "5w")
     public double FiveWickets;
+    public IPLMostWickets (){
+    }
     public String getPLAYER() {
         return PLAYER;
     }
 
-    @Override
+   @ Override
     public String toString() {
         return "IplMostWickets{" +
                 "POS='" + POS + '\'' +

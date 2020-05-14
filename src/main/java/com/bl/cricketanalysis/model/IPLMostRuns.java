@@ -3,6 +3,7 @@ package com.bl.cricketanalysis.model;
 import com.opencsv.bean.CsvBindByName;
 
 public class IPLMostRuns {
+
     @CsvBindByName(column = "POS")
     public String POS;
 
@@ -45,6 +46,9 @@ public class IPLMostRuns {
     @CsvBindByName(column = "6s")
     public double sixs;
 
+    public IPLMostRuns(){
+
+    }
     public String getPLAYER() {
         return PLAYER;
     }
